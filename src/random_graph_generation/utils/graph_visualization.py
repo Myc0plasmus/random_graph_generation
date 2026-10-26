@@ -3,7 +3,7 @@ import igraph as ig
 from matplotlib import pyplot as plt
 
 
-def graphVisualization(name:str, graph: ig.Graph):
+def graph_visualization(name:str, graph: ig.Graph):
 
     fig, ax = plt.subplots(figsize=(16, 16))
 
