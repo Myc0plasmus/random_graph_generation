@@ -1,0 +1,6 @@
+[project]
+name = "random_graph_generation"
+version = "0.5.0"
+
+[tool.setuptools.packages.find]
+where = ["src"]
