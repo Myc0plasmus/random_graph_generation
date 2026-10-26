@@ -11,7 +11,7 @@
         inherit system;
       };
       fsh = pkgs.buildFHSEnv rec {
-        name = "biology_of_systems";
+        name = "random_graph_generation";
 
         targetPkgs = _: [
           pkgs.micromamba
