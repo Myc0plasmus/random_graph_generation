@@ -14,7 +14,7 @@ ConfigSchema = TypeVar("ConfigSchema")
 
 
 def generate_graphs_parallel(
-    graph_generator: Callable[[tuple[int, ConfigSchema]], ig.Graph],
+    graph_generator: Callable[[tuple[int, ConfigSchema]], tuple[int, ig.Graph]],
     worker_args: Sequence[ConfigSchema],
 ) -> None:
     df = pd.DataFrame()
