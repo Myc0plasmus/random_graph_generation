@@ -6,12 +6,10 @@ def generate_artifacts():
     project_root = Path.cwd()
 
     dirs = [
-        "data",
-        "data/raw",
-        "data/processed",
-        "models",
-        "outputs",
-        "logs",
+        "artifacts",
+        "artifacts/graphs",
+        "artifacts/tables",
+        "artifacts/figures",
     ]
 
     for directory in dirs:
