@@ -7,6 +7,14 @@ Natan|Jabłoński|155621
 
 ## Erdos Rényi
 ```python
+import igraph as ig
+import random
+from math import comb
+from random_graph_generation.utils import nth_combination
+from random_graph_generation.schemas import ErdosRenyiSchema
+from random_graph_generation.parallel_generation import multiprocess_wrapper
+
+
 @multiprocess_wrapper
 def erdos_renyi(config: ErdosRenyiSchema) -> ig.Graph:
     """Generate an Erdős–Rényi random graph.

@@ -1,28 +1,20 @@
 import importlib
-import inspect
+from pathlib import Path
 
 
-def get_source(reference: str) -> str:
-    """Resolve a dotted Python reference and return its source code."""
-    parts = reference.split(".")
+def get_source(module_path: str) -> str:
+    """Return the source file contents for an importable Python module."""
+    module = importlib.import_module(module_path)
 
-    # Try progressively shorter module paths, since the final
-    # components may identify a class or function within a module.
-    for i in range(len(parts) - 1, 0, -1):
-        module_name = ".".join(parts[:i])
-        attributes = parts[i:]
+    if not hasattr(module, "__file__") or module.__file__ is None:
+        raise ValueError(f"Module {module_path!r} has no source file.")
 
-        try:
-            obj = importlib.import_module(module_name)
-        except ModuleNotFoundError:
-            continue
+    source_path = Path(module.__file__)
 
-        try:
-            for attribute in attributes:
-                obj = getattr(obj, attribute)
-        except AttributeError as exc:
-            raise ValueError(f"Cannot resolve reference: {reference}") from exc
+    if source_path.suffix != ".py":
+        raise ValueError(
+            f"Module {module_path!r} does not point to a Python source file: "
+            f"{source_path}"
+        )
 
-        return inspect.getsource(obj)
-
-    raise ValueError(f"Cannot import module for reference: {reference}")
+    return source_path.read_text(encoding="utf-8")
