@@ -1,4 +1,3 @@
-import pandas as pd
 from multiprocessing import Pool
 from tqdm import tqdm
 import pickle as pkl
@@ -7,7 +6,7 @@ from typing import Callable, TypeVar, Sequence
 
 import igraph as ig
 
-from random_graph_generation.utils import add_graph_stats, get_graphs_path
+from random_graph_generation.utils import get_graphs_path
 
 
 ConfigSchema = TypeVar("ConfigSchema")
@@ -17,7 +16,6 @@ def generate_graphs_parallel(
     graph_generator: Callable[[tuple[int, ConfigSchema]], tuple[int, ig.Graph]],
     worker_args: Sequence[ConfigSchema],
 ) -> None:
-    df = pd.DataFrame()
     n_graphs = len(worker_args)
     graph_list: list[ig.Graph | None] = [None] * n_graphs
 
@@ -31,10 +29,6 @@ def generate_graphs_parallel(
             total=n_graphs,
         ):
             graph_list[idx] = result
-
-    for g in graph_list:
-        assert g is not None, "One of the graphs did not compute"
-        df = add_graph_stats(df, g)
 
     graph_path = get_graphs_path(f"{graph_generator.__name__}_graphs.pkl")
 
