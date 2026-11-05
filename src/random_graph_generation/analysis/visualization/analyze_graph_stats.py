@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-
 def analyze_graph_stats(
     df: pd.DataFrame,
     columns: list[str] | None = None,
@@ -31,30 +30,23 @@ def analyze_graph_stats(
 
     if columns is None:
         columns = df.select_dtypes(include="number").columns.tolist()
-        columns = [
-            col for col in columns
-            if not pd.api.types.is_bool_dtype(df[col])
-        ]
+        columns = [col for col in columns if not pd.api.types.is_bool_dtype(df[col])]
     else:
         missing = [col for col in columns if col not in df.columns]
         if missing:
             raise ValueError(f"Columns not found: {missing}")
 
         non_numeric = [
-            col for col in columns
+            col
+            for col in columns
             if not pd.api.types.is_numeric_dtype(df[col])
             or pd.api.types.is_bool_dtype(df[col])
         ]
         if non_numeric:
-            raise ValueError(
-                f"Columns must be numerical (not boolean): {non_numeric}"
-            )
+            raise ValueError(f"Columns must be numerical (not boolean): {non_numeric}")
 
     # Drop columns with no usable numerical observations.
-    columns = [
-        col for col in columns
-        if df[col].notna().any()
-    ]
+    columns = [col for col in columns if df[col].notna().any()]
 
     if not columns:
         raise ValueError("No usable numerical columns to plot.")
@@ -90,10 +82,9 @@ def analyze_graph_stats(
         )
 
     # Hide unused subplot slots.
-    for ax in axes.flat[len(columns):]:
+    for ax in axes.flat[len(columns) :]:
         ax.set_visible(False)
 
     fig.suptitle("Distribution of Graph Statistics", fontsize=16)
     fig.tight_layout()
     plt.show()
-
