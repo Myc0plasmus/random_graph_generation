@@ -3,7 +3,7 @@ import pickle as pkl
 from rich.console import Console
 
 from random_graph_generation.utils import get_graphs_path, get_tables_path
-from .utils import create_graph_stats_df
+from .create_graph_stats_df import create_graph_stats_df
 
 
 def process_graph_list(method_name: str):
