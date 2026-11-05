@@ -1,7 +1,7 @@
 import pandas as pd
 import igraph as ig
 
-from .compute_graph_stats import compute_graph_stats
+from ..metrics import compute_graph_stats
 
 
 def create_graph_stats_df(graph_list: list[ig.Graph]):
